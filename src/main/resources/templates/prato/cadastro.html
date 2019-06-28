@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt" 
+	xmlns:layout= "http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>	
+    <section class="layout-content" layout:fragment="corpo" >
+
+        <nav class="navbar navbar-expand-md bg-light">
+            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <i class="oi oi-caret-right"></i>
+                        <span>Cadastrar Pratos</span>
+                    </li>
+                </ul>
+            </div>
+            <a class="btn btn-primary btn-md" href="/prato/listar" role="button">
+                <span class="oi oi-spreadsheet" title="Cadastro" aria-hidden="true"></span>
+                <span>Listar Pratos</span>
+            </a>
+        </nav>
+
+        <div class="container" id="cadastro">
+        
+        	<div th:replace="fragments/alert"></div>
+        
+            <form th:action="${prato.id == null} ? @{/prato/salvar} : @{/prato/editar}" th:object="${prato}" method="POST">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="nome">Nome do Prato</label>
+                        <input type="text" class="form-control" id="nome" placeholder="Nome Prato" autofocus="autofocus"
+                               th:field="*{nome}"/>
+                    </div>
+                    
+                    <div class="form-group col-md-4">
+                        <label for="tipo">Tipo de Prato</label>
+                        <input type="text" class="form-control" id="tipo" placeholder="Tipo Prato" autofocus="autofocus"
+                               th:field="*{tipo}"/>
+                    </div>
+                    
+                    <div class="form-group col-md-10">
+                        <label for="desc">Descriçao do Prato</label>
+                         <textarea class="form-control" id="descricao" rows="3"
+                         	autofocus="autofocus" th:field="*{desc}"></textarea>
+                    </div>
+                    
+                     <div class="form-group col-md-5">
+                        <label for="nome">Valor do prato</label>
+                         <input type="text" class="form-control" id="valor" data-mask="#.##0,00"
+	                        data-mask-reverse="true"
+                        	autofocus="autofocus" th:field="*{valor}"/>
+                    </div>
+                    
+                    <div class="form-group col-md-5">
+                        <label for="chefe">Chefe</label>
+                        <select id="chefe" class="form-control" th:field="*{chefe} ">
+                            <option value="">Selecione</option>
+                            <option th:each=" c : ${chefes}" 
+                            th:value="${c.id}" th:text="${c.nome}"> </option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" id="id" th:field="*{id}"/>
+                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+            </form>
+        </div>
+    </section>
+
+</body>
+</html>		
